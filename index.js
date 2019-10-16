@@ -43,10 +43,11 @@ router.get('/api/sayHello', async function(ctx) {
 
 });
 
-router.get('/api/gogoLineBot', async function(ctx) {
+app.use(router.routes());
 
+app.get("/", function (req, res) { 
+    res.send("Hello LineBot");
 });
 
-app.use(router.routes());
 app.listen(3001);
 
