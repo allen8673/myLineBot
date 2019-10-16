@@ -38,16 +38,18 @@ router.get('/api/sayHello', async function(ctx) {
         // ctx.body ="Hello" + ctx.query.msg;
     }
 
-    ctx.body = 'Hello World';
+    ctx.body = 'OK';
 
 
 });
+
+router.get('/',async function(ctx) {
+
+    ctx.body = 'Hello World';
+})
 
 app.use(router.routes());
 
-app.get("/", function (req, res) { 
-    res.send("Hello LineBot");
-});
 
 app.listen(3001);
 
