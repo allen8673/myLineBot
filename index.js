@@ -49,7 +49,9 @@ router.get('/',async function(ctx) {
 })
 
 app.use(router.routes());
-
-
-app.listen(3001);
+var server = app.listen(process.env.PORT || 8080, function () {
+    var port = server.address().port;
+    console.log("App now running on port", port);
+});
+// app.listen(3001);
 
