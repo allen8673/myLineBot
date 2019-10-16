@@ -44,7 +44,10 @@ router.get('/api/sayHello', async function(ctx) {
 });
 
 router.get('/',async function(ctx) {
+    ctx.body = 'Hello World';
+})
 
+router.post('/',async function(ctx) {
     ctx.body = 'Hello World';
 })
 
