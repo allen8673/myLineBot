@@ -6,8 +6,8 @@ var bodyParser = require('koa-bodyparser');
 const app = new Koa();
 const router = Router();
 
-const linebot = require('linebot');
-const bot = linebot({
+var linebot = require('linebot');
+var bot = linebot({
     channelId: '1653340482',
     channelSecret:'af4d905b8cada074224be42c516f8d59',
     channelAccessToken: 'Jh4piRE0jQx8ZaJIO+YdNxQIpi62WprUkM097Jj+AjgLwB48QSPyoHIL62B09vf+xpNGxm4283g+AhjfA9gt2FEkTPSDGRS+MPR6MAQ/xG8xbblG6pfs1i9zf0kofqnFUzIMgnrUlxnOlPDVeHaMmwdB04t89/1O/w1cDnyilFU='
