@@ -22,7 +22,7 @@ bot.on('message', (event) => {
         });
 
         clientList.forEach(c=>{
-            if(c===event.source.userId){
+            if(c!=event.source.userId){
                 bot.push(c, ['有人說'+msg]);
             }
         })
