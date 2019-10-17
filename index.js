@@ -2,9 +2,9 @@ var linebot = require('linebot');
 var express = require('express');
 
 var bot = linebot({
-    channelId: 'Channel ID',
-    channelSecret:'Channel secret',
-    channelAccessToken: 'Channel access token'
+    channelId: '1653340482',
+    channelSecret:'af4d905b8cada074224be42c516f8d59',
+    channelAccessToken: 'xqf0V6QiAPkFTrgQVaCcvp6Ougp5Gy8idn5v2znRvPaLrOVEjovUdqkcQRpd8kAnxpNGxm4283g+AhjfA9gt2FEkTPSDGRS+MPR6MAQ/xG92P47PK87KYsdwFuVlpc9kzC/N4EJ8dW5tfhTNjzU91AdB04t89/1O/w1cDnyilFU='
 });
 
 //取得使用者回覆的訊息
