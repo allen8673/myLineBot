@@ -7,14 +7,10 @@ var bot = linebot({
     channelAccessToken: 'xqf0V6QiAPkFTrgQVaCcvp6Ougp5Gy8idn5v2znRvPaLrOVEjovUdqkcQRpd8kAnxpNGxm4283g+AhjfA9gt2FEkTPSDGRS+MPR6MAQ/xG92P47PK87KYsdwFuVlpc9kzC/N4EJ8dW5tfhTNjzU91AdB04t89/1O/w1cDnyilFU='
 });
 
-const clientList = ['U6281e4ee98d459a3cb1b6b42428c202f'];
+const clientList = ['U6281e4ee98d459a3cb1b6b42428c202f','U22e242eb07372036c7cdc031e521f840'];
 
 //取得使用者回覆的訊息
-bot.on('message', function (event) {
-    if(!clientList.includes(event.source.userId))
-    {
-        clientList.push(event.source.userId)
-    }
+bot.on('message', (event) => {
     if (event.message.type = 'text') {
         var msg = event.message.text;
         //重覆使用者說的訊息
@@ -25,6 +21,20 @@ bot.on('message', function (event) {
             // error
             console.log('error:'+error);
         });
+    }
+});
+
+bot.on('follow', () => {
+    if(!clientList.includes(event.source.userId))
+    {
+        clientList.push(event.source.userId)
+    }
+});
+
+bot.on('unfollow', () => {
+    if(clientList.includes(event.source.userId))
+    {
+        clientList.splice(clientList.indexOf(event.source.userId),1)
     }
 });
 
@@ -41,19 +51,20 @@ bot.on('message', function (event) {
 const app = express();
 const linebotParser = bot.parser();
 app.get("/", (req, res)=> { 
+    res.send("Hello LineBot");
+});
+app.post('/', linebotParser);
+app.get('/getlist', (req, res)=>{
+    res.send(clientList);
+});
+
+app.get('/pushmsg', (req, res)=> { 
     if(req.query.msg){
         clientList.forEach(userid=>
         {
             bot.push(userid, [req.query.msg]);
         });
     }
-    else{
-        res.send("Hello LineBot");
-    }
-});
-app.post('/', linebotParser);
-app.get('/getlist', (req, res)=>{
-    res.send(clientList);
 });
 
 //因為 express 預設走 port 3000，而 heroku 上預設卻不是，要透過下列程式轉換
