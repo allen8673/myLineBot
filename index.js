@@ -4,22 +4,22 @@ var bot = linebot({
     channelSecret:'af4d905b8cada074224be42c516f8d59',
     channelAccessToken: 'xqf0V6QiAPkFTrgQVaCcvp6Ougp5Gy8idn5v2znRvPaLrOVEjovUdqkcQRpd8kAnxpNGxm4283g+AhjfA9gt2FEkTPSDGRS+MPR6MAQ/xG92P47PK87KYsdwFuVlpc9kzC/N4EJ8dW5tfhTNjzU91AdB04t89/1O/w1cDnyilFU='
 });
-bot.on('message', function (event) {
-    if (event.message.type = 'text') 
-    {
-        var msg = event.message.text;
-        //重覆使用者說的訊息
-        event.reply("您說："+msg).then(function (data) {
-            // success
-            log = event;
-            console.log(event);
-        }).catch(function (error) {
-            // error
-            log = 'error:'+error
-            console.log('error:'+error);
-        });
-    }
-});
+// bot.on('message', function (event) {
+//     if (event.message.type = 'text') 
+//     {
+//         var msg = event.message.text;
+//         //重覆使用者說的訊息
+//         event.reply("您說："+msg).then(function (data) {
+//             // success
+//             log = event;
+//             console.log(event);
+//         }).catch(function (error) {
+//             // error
+//             log = 'error:'+error
+//             console.log('error:'+error);
+//         });
+//     }
+// });
 
 const Koa = require('koa');
 const Router = require('koa-router');
@@ -38,6 +38,27 @@ router.get('/', async function(ctx) {
     }else{
         ctx.body = 'Hello World';
     }
+});
+router.get('/open', async function(ctx) {
+
+    bot.on('message', function (event) {
+        if (event.message.type = 'text') 
+        {
+            var msg = event.message.text;
+            //重覆使用者說的訊息
+            event.reply("您說："+msg).then(function (data) {
+                // success
+                log = event;
+                console.log(event);
+            }).catch(function (error) {
+                // error
+                log = 'error:'+error
+                console.log('error:'+error);
+            });
+        }
+    });
+    ctx.body = 'open';
+
 });
 router.post('/',async function(ctx) {
     ctx.body = 'Hello World';
