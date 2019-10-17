@@ -13,6 +13,9 @@ const bot = linebot({
     channelAccessToken: 'Jh4piRE0jQx8ZaJIO+YdNxQIpi62WprUkM097Jj+AjgLwB48QSPyoHIL62B09vf+xpNGxm4283g+AhjfA9gt2FEkTPSDGRS+MPR6MAQ/xG8xbblG6pfs1i9zf0kofqnFUzIMgnrUlxnOlPDVeHaMmwdB04t89/1O/w1cDnyilFU='
 })
 
+
+const log = '';
+
 bot.on('message', function (event) {
     // if (event.message.type = 'text') 
     {
@@ -20,9 +23,11 @@ bot.on('message', function (event) {
         //重覆使用者說的訊息
         event.reply("您說："+msg).then(function (data) {
             // success
+            log = event;
             console.log(event);
         }).catch(function (error) {
             // error
+            log = 'error:'+error
             console.log('error:'+error);
         });
     }
@@ -30,7 +35,7 @@ bot.on('message', function (event) {
 
 app.use(bodyParser());
 
-router.get('/api/sayHello', async function(ctx) {
+router.get('/', async function(ctx) {
 
     if(ctx.query.msg){
         var userId = 'U6281e4ee98d459a3cb1b6b42428c202f';
@@ -38,11 +43,13 @@ router.get('/api/sayHello', async function(ctx) {
         bot.push(userId, [sendMsg]);
         // ctx.body ="Hello" + ctx.query.msg;
     }
-
     ctx.body = 'OK';
-
-
 });
+router.get('/log', async function(ctx) {
+
+    ctx.body = log;
+});
+
 
 router.get('/',async function(ctx) {
     ctx.body = 'Hello World';
