@@ -24,14 +24,14 @@ bot.on('message', (event) => {
     }
 });
 
-bot.on('follow', () => {
+bot.on('follow', (event) => {
     if(!clientList.includes(event.source.userId))
     {
         clientList.push(event.source.userId)
     }
 });
 
-bot.on('unfollow', () => {
+bot.on('unfollow', (event) => {
     if(clientList.includes(event.source.userId))
     {
         clientList.splice(clientList.indexOf(event.source.userId),1)
