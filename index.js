@@ -7,20 +7,35 @@ var bot = linebot({
     channelAccessToken: 'xqf0V6QiAPkFTrgQVaCcvp6Ougp5Gy8idn5v2znRvPaLrOVEjovUdqkcQRpd8kAnxpNGxm4283g+AhjfA9gt2FEkTPSDGRS+MPR6MAQ/xG92P47PK87KYsdwFuVlpc9kzC/N4EJ8dW5tfhTNjzU91AdB04t89/1O/w1cDnyilFU='
 });
 
-const clientList = ['U6281e4ee98d459a3cb1b6b42428c202f','U22e242eb07372036c7cdc031e521f840'];
+const clientList = ["U22e242eb07372036c7cdc031e521f840","U6281e4ee98d459a3cb1b6b42428c202f","U1439ebf6ff1dccefc54455187dee8db8","U8b35fceb0b30cb8ba109069528776d37"];
 
 //取得使用者回覆的訊息
 bot.on('message', (event) => {
     if (event.message.type = 'text') {
         var msg = event.message.text;
-        //重覆使用者說的訊息
-        event.reply("您說："+msg).then(function (data) {
+        event.reply("我已經跟大家說:"+msg).then(function (data) {
             // success
             console.log(event);
         }).catch(function (error) {
             // error
             console.log('error:'+error);
         });
+
+        clientList.forEach(c=>{
+            if(c===event.source.userId){
+                bot.push(c, ['有人說'+msg]);
+            }
+        })
+
+        // var msg = event.message.text;
+        // //重覆使用者說的訊息
+        // event.reply("您說："+msg).then(function (data) {
+        //     // success
+        //     console.log(event);
+        // }).catch(function (error) {
+        //     // error
+        //     console.log('error:'+error);
+        // });
     }
 });
 
