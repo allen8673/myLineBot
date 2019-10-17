@@ -14,7 +14,7 @@ const bot = linebot({
 });
 
 
-const log = '';
+let log = 'log';
 
 bot.on('message', function (event) {
     log = 'get message';
