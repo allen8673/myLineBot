@@ -1,69 +1,46 @@
-
-const Koa = require('koa');
-const Router = require('koa-router');
-var bodyParser = require('koa-bodyparser');
-
-const app = new Koa();
-const router = Router();
-
 var linebot = require('linebot');
+var express = require('express');
+
 var bot = linebot({
-    channelId: '1653340482',
-    channelSecret:'af4d905b8cada074224be42c516f8d59',
-    channelAccessToken: 'Jh4piRE0jQx8ZaJIO+YdNxQIpi62WprUkM097Jj+AjgLwB48QSPyoHIL62B09vf+xpNGxm4283g+AhjfA9gt2FEkTPSDGRS+MPR6MAQ/xG8xbblG6pfs1i9zf0kofqnFUzIMgnrUlxnOlPDVeHaMmwdB04t89/1O/w1cDnyilFU='
+    channelId: 'Channel ID',
+    channelSecret:'Channel secret',
+    channelAccessToken: 'Channel access token'
 });
 
-
-let log = 'log';
-
+//取得使用者回覆的訊息
 bot.on('message', function (event) {
-    log = 'get message';
-    // if (event.message.type = 'text') 
-    {
+    if (event.message.type = 'text') {
         var msg = event.message.text;
         //重覆使用者說的訊息
         event.reply("您說："+msg).then(function (data) {
             // success
-            log = event;
             console.log(event);
         }).catch(function (error) {
             // error
-            log = 'error:'+error
             console.log('error:'+error);
         });
     }
 });
 
-app.use(bodyParser());
+// 主動發送訊息
+setTimeout(function () {
+    var userId = 'Your User ID';
+    var sendMsg = "push hands up ";
+    bot.push(userId, [sendMsg]);
+    console.log('userId: ' + userId);
+    console.log('send: ' + sendMsg);
+}, 3000);
 
-router.get('/', async function(ctx) {
 
-    if(ctx.query.msg){
-        var userId = 'U6281e4ee98d459a3cb1b6b42428c202f';
-        var sendMsg = ctx.query.msg;
-        bot.push(userId, [sendMsg]);
-        // ctx.body ="Hello" + ctx.query.msg;
-    }
-    ctx.body = 'OK';
+const app = express();
+const linebotParser = bot.parser();
+app.get("/", function (req, res) { 
+    res.send("Hello LineBot");
 });
-router.get('/log', async function(ctx) {
+app.post('/', linebotParser);
 
-    ctx.body = log;
-});
-
-
-router.get('/',async function(ctx) {
-    ctx.body = 'Hello World';
-})
-
-router.post('/',async function(ctx) {
-    ctx.body = 'Hello World';
-})
-
-app.use(router.routes());
+//因為 express 預設走 port 3000，而 heroku 上預設卻不是，要透過下列程式轉換
 var server = app.listen(process.env.PORT || 8080, function () {
     var port = server.address().port;
     console.log("App now running on port", port);
 });
-// app.listen(3001);
-
