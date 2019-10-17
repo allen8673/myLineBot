@@ -1,9 +1,3 @@
-
-const Koa = require('koa');
-const Router = require('koa-router');
-var bodyParser = require('koa-bodyparser');
-
-let log = 'log';
 var linebot = require('linebot');
 var bot = linebot({
     channelId: '1653340482',
@@ -11,7 +5,6 @@ var bot = linebot({
     channelAccessToken: 'xqf0V6QiAPkFTrgQVaCcvp6Ougp5Gy8idn5v2znRvPaLrOVEjovUdqkcQRpd8kAnxpNGxm4283g+AhjfA9gt2FEkTPSDGRS+MPR6MAQ/xG92P47PK87KYsdwFuVlpc9kzC/N4EJ8dW5tfhTNjzU91AdB04t89/1O/w1cDnyilFU='
 });
 bot.on('message', function (event) {
-    log = 'get message';
     if (event.message.type = 'text') 
     {
         var msg = event.message.text;
@@ -28,6 +21,9 @@ bot.on('message', function (event) {
     }
 });
 
+const Koa = require('koa');
+const Router = require('koa-router');
+var bodyParser = require('koa-bodyparser');
 const app = new Koa();
 const router = Router();
 app.use(bodyParser());
