@@ -7,7 +7,7 @@ var bot = linebot({
     channelAccessToken: 'xqf0V6QiAPkFTrgQVaCcvp6Ougp5Gy8idn5v2znRvPaLrOVEjovUdqkcQRpd8kAnxpNGxm4283g+AhjfA9gt2FEkTPSDGRS+MPR6MAQ/xG92P47PK87KYsdwFuVlpc9kzC/N4EJ8dW5tfhTNjzU91AdB04t89/1O/w1cDnyilFU='
 });
 
-const clientList = [];
+const clientList = ['U6281e4ee98d459a3cb1b6b42428c202f'];
 
 //取得使用者回覆的訊息
 bot.on('message', function (event) {
@@ -44,7 +44,7 @@ app.get("/", (req, res)=> {
     if(req.query.msg){
         clientList.forEach(userid=>
         {
-            bot.push(userid, [sendMsg]);
+            bot.push(userid, [req.query.msg]);
         });
     }
     else{
