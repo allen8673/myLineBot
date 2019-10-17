@@ -7,8 +7,14 @@ var bot = linebot({
     channelAccessToken: 'xqf0V6QiAPkFTrgQVaCcvp6Ougp5Gy8idn5v2znRvPaLrOVEjovUdqkcQRpd8kAnxpNGxm4283g+AhjfA9gt2FEkTPSDGRS+MPR6MAQ/xG92P47PK87KYsdwFuVlpc9kzC/N4EJ8dW5tfhTNjzU91AdB04t89/1O/w1cDnyilFU='
 });
 
+const clientList = [];
+
 //取得使用者回覆的訊息
 bot.on('message', function (event) {
+    if(!clientList.includes(event.source.userId))
+    {
+        clientList.push(event.source.userId)
+    }
     if (event.message.type = 'text') {
         var msg = event.message.text;
         //重覆使用者說的訊息
@@ -34,10 +40,21 @@ bot.on('message', function (event) {
 
 const app = express();
 const linebotParser = bot.parser();
-app.get("/", function (req, res) { 
-    res.send("Hello LineBot");
+app.get("/", (req, res)=> { 
+    if(req.query.msg){
+        clientList.forEach(userid=>
+        {
+            bot.push(userid, [sendMsg]);
+        });
+    }
+    else{
+        res.send("Hello LineBot");
+    }
 });
 app.post('/', linebotParser);
+app.get('/getlist', (req, res)=>{
+    res.send(clientList);
+});
 
 //因為 express 預設走 port 3000，而 heroku 上預設卻不是，要透過下列程式轉換
 var server = app.listen(process.env.PORT || 8080, function () {
