@@ -31,6 +31,7 @@ bot.on('message', function (event) {
 const app = new Koa();
 const router = Router();
 app.use(bodyParser());
+const linebotParser = bot.parser();
 router.get('/', async function(ctx) {
 
     if(ctx.query.msg){
@@ -46,6 +47,7 @@ router.post('/',async function(ctx) {
     ctx.body = 'Hello World';
 })
 router.get('/log', async function(ctx) {
+    linebotParser;
     ctx.body = log;
 });
 
