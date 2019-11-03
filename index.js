@@ -20,7 +20,7 @@ bot.on('message', (event) => {
             return;
         }
 
-        if( msg === 'acbd1234' && !user.auth){
+        if( msg === 'abcd1234' && !user.auth){
             user.auth = true;
             user.broadcast = true;
             event.reply("已經將您的廣播權限開通，您可以透過‘開啟廣播’和‘關閉廣播’開關廣播功能").then(function (data) {
