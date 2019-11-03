@@ -7,25 +7,89 @@ var bot = linebot({
     channelAccessToken: 'xqf0V6QiAPkFTrgQVaCcvp6Ougp5Gy8idn5v2znRvPaLrOVEjovUdqkcQRpd8kAnxpNGxm4283g+AhjfA9gt2FEkTPSDGRS+MPR6MAQ/xG92P47PK87KYsdwFuVlpc9kzC/N4EJ8dW5tfhTNjzU91AdB04t89/1O/w1cDnyilFU='
 });
 
-const clientList = ["U22e242eb07372036c7cdc031e521f840","U6281e4ee98d459a3cb1b6b42428c202f","U1439ebf6ff1dccefc54455187dee8db8","U8b35fceb0b30cb8ba109069528776d37"];
+// const clientList = ["U22e242eb07372036c7cdc031e521f840","U6281e4ee98d459a3cb1b6b42428c202f","U1439ebf6ff1dccefc54455187dee8db8","U8b35fceb0b30cb8ba109069528776d37"];
+const clientList = [];
 
 //取得使用者回覆的訊息
 bot.on('message', (event) => {
-    if (event.message.type = 'text') {
+    if (event.message.type === 'text') {
         var msg = event.message.text;
-        event.reply("我已經跟大家說:"+msg).then(function (data) {
-            // success
-            console.log(event);
-        }).catch(function (error) {
-            // error
-            console.log('error:'+error);
-        });
+        var user = clientList.find(i=>i.id===event.source.userId);
 
-        clientList.forEach(c=>{
-            if(c!=event.source.userId){
-                bot.push(c, ['有人說:'+msg]);
+        if(!user){
+            return;
+        }
+
+        if( msg === 'acbd1234' && !user.auth){
+            user.auth = true;
+            user.broadcast = true;
+            event.reply("已經將您的廣播權限開通，您可以透過‘開啟廣播’和‘關閉廣播’開關廣播功能").then(function (data) {
+                console.log(event);
+            }).catch(function (error) {
+                console.log('error:'+error);
+            });
+            return;
+        }
+
+        if(!user.auth){
+            event.reply("您並沒有廣播權限，請輸入代碼以開啟權限").then(function (data) {
+                console.log(event);
+            }).catch(function (error) {
+                console.log('error:'+error);
+            });
+            return;
+        }
+
+        switch (msg) {
+            case '開啟廣播':
+                if(!user.broadcast){
+                    user.broadcast = true;
+                    event.reply("已經開啟您的廣播功能了，您現在可以接受和推播訊息").then(function (data) {
+                        console.log(event);
+                    }).catch(function (error) {
+                        console.log('error:'+error);
+                    });
+                }
+                break;
+            case '關閉廣播':
+                    if(user.broadcast){
+                        user.broadcast = false;
+                        event.reply("已經關閉您的廣播功能了，您現在無法接受和推播訊息").then(function (data) {
+                            console.log(event);
+                        }).catch(function (error) {
+                            console.log('error:'+error);
+                        });
+                    }
+                break;
+            default:
+                event.reply("我已經跟大家說:" + msg).then(function (data) { 
+                    console.log(event);
+                }).catch(function (error) {
+                    console.log('error:'+error);
+                });
+                clientList.forEach(c=>{
+                     if(c.id != event.source.userId && c.auth && c.broadcast){
+                        bot.push(c.id, ['有人說:'+msg]);
+                    }
+                })
+                break;
             }
-        })
+
+        
+
+        // event.reply("我已經跟大家說:"+msg).then(function (data) {
+        //     // success
+        //     console.log(event);
+        // }).catch(function (error) {
+        //     // error
+        //     console.log('error:'+error);
+        // });
+
+        // clientList.forEach(c=>{
+        //     if(c!=event.source.userId){
+        //         bot.push(c, ['有人說:'+msg]);
+        //     }
+        // })
 
         // var msg = event.message.text;
         // //重覆使用者說的訊息
@@ -40,16 +104,28 @@ bot.on('message', (event) => {
 });
 
 bot.on('follow', (event) => {
-    if(!clientList.includes(event.source.userId))
-    {
-        clientList.push(event.source.userId)
+    // if(!clientList.includes(event.source.userId))
+    // {
+    //     clientList.push(event.source.userId);
+    // }
+
+    if(!clientList.some(i=> i.id === event.source.userId)){
+        clientList.push({
+            id: event.source.userId,
+            broadcast: false,
+            auth:false
+        })
     }
 });
 
 bot.on('unfollow', (event) => {
-    if(clientList.includes(event.source.userId))
-    {
-        clientList.splice(clientList.indexOf(event.source.userId),1)
+    // if(clientList.includes(event.source.userId))
+    // {
+    //     clientList.splice(clientList.indexOf(event.source.userId),1)
+    // }
+
+    if(clientList.some(i=> i.id === event.source.userId)){
+        clientList.splice(clientList.findIndex(i=>i.id === event.source.userId), 1)
     }
 });
 
