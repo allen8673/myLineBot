@@ -62,16 +62,18 @@ bot.on('message', (event) => {
                     }
                 break;
             default:
-                event.reply("我已經跟大家說:" + msg).then(function (data) { 
-                    console.log(event);
-                }).catch(function (error) {
-                    console.log('error:'+error);
-                });
-                clientList.forEach(c=>{
-                     if(c.id != event.source.userId && c.auth && c.broadcast){
-                        bot.push(c.id, ['有人說:'+msg]);
-                    }
-                })
+                if(user.broadcast){
+                    event.reply("我已經跟大家說:" + msg).then(function (data) { 
+                        console.log(event);
+                    }).catch(function (error) {
+                        console.log('error:'+error);
+                    });
+                    clientList.forEach(c=>{
+                         if(c.id != event.source.userId && c.auth && c.broadcast){
+                            bot.push(c.id, ['有人說:'+msg]);
+                        }
+                    })
+                }
                 break;
             }
 
