@@ -7,38 +7,39 @@ const bot = linebot({
     channelAccessToken: 'xqf0V6QiAPkFTrgQVaCcvp6Ougp5Gy8idn5v2znRvPaLrOVEjovUdqkcQRpd8kAnxpNGxm4283g+AhjfA9gt2FEkTPSDGRS+MPR6MAQ/xG92P47PK87KYsdwFuVlpc9kzC/N4EJ8dW5tfhTNjzU91AdB04t89/1O/w1cDnyilFU='
 });
 
-const clientList = [];
+const authValue = 'abcd1234';
 
 //取得使用者回覆的訊息
 bot.on('message', async (event) => {
     if (event.message.type === 'text') {
-        const clientList = await dataprocess.getAllUsers();
+        // const clientList = await dataprocess.getAllUsers();
         var msg = event.message.text;
-        var user = clientList.find(i=>i.id===event.source.userId);
+        var user = await dataprocess.getUser(event.source.userId); //clientList.find(i=>i.id===event.source.userId);
 
         if(!user){
             return;
         }
 
-        // if( msg === 'abcd1234' && !user.auth){
-        //     user.auth = true;
-        //     user.broadcast = true;
-        //     event.reply("已經將您的廣播權限開通，您可以透過‘開啟廣播’和‘關閉廣播’開關廣播功能").then(function (data) {
-        //         console.log(event);
-        //     }).catch(function (error) {
-        //         console.log('error:'+error);
-        //     });
-        //     return;
-        // }
+        if( msg === authValue && user.auth !== authValue){
+            dataprocess.updateAuth(user.id, msg)
+            // user.auth = true;
+            // user.broadcast = true;
+            event.reply("已經將您的廣播權限開通，您可以透過‘開啟廣播’和‘關閉廣播’開關廣播功能").then(function (data) {
+                console.log(event);
+            }).catch(function (error) {
+                console.log('error:'+error);
+            });
+            return;
+        }
 
-        // if(!user.auth){
-        //     event.reply("您並沒有廣播權限，請輸入代碼以開啟權限").then(function (data) {
-        //         console.log(event);
-        //     }).catch(function (error) {
-        //         console.log('error:'+error);
-        //     });
-        //     return;
-        // }
+        if(user.auth !== authValue){
+            event.reply("您並沒有廣播權限，請輸入代碼以開啟權限").then(function (data) {
+                console.log(event);
+            }).catch(function (error) {
+                console.log('error:'+error);
+            });
+            return;
+        }
 
         switch (msg) {
             case '開啟廣播':
@@ -62,6 +63,7 @@ bot.on('message', async (event) => {
                     }
                 break;
             default:
+                const clientList = await dataprocess.getAllUsers();
                 if(user.broadcast){
                     event.reply("我已經跟大家說:" + msg).then(function (data) { 
                         console.log(event);
