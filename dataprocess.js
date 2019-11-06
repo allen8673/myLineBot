@@ -23,6 +23,8 @@ module.exports = {
                 console.log(err);
             })
         }
+
+        return users;
     },
     deleteUser: async (userId) => {
         const sql = 'DELETE FROM user_list WHERE id = $1';

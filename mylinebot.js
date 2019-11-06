@@ -80,23 +80,26 @@ bot.on('message', (event) => {
 });
 
 bot.on('follow', async (event) => {
-    const clientList = await dataprocess.getAllUsers();
-    if(!clientList.some(i=> i.id === event.source.userId)){
-       await  dataprocess.addUser(event.source.userId);
-        // clientList.push({
-        //     id: event.source.userId,
-        //     broadcast: false,
-        //     auth:false
-        // })
-    }
+    const users = await dataprocess.addUser(event.source.userId);
+    event.reply (users);
+    // if(!clientList.some(i=> i.id === event.source.userId)){
+    //    await  dataprocess.addUser(event.source.userId);
+    //     // clientList.push({
+    //     //     id: event.source.userId,
+    //     //     broadcast: false,
+    //     //     auth:false
+    //     // })
+    // }
 });
 
 bot.on('unfollow', async (event) => {
-    const clientList = await dataprocess.getAllUsers();
-    if(clientList.some(i=> i.id === event.source.userId)){
-        await dataprocess.deleteUser(event.source.userId);
-        // clientList.splice(clientList.findIndex(i=>i.id === event.source.userId), 1)
-    }
+    await dataprocess.deleteUser(event.source.userId);
+
+    // const clientList = await dataprocess.getAllUsers();
+    // if(clientList.some(i=> i.id === event.source.userId)){
+    //     await dataprocess.deleteUser(event.source.userId);
+    //     // clientList.splice(clientList.findIndex(i=>i.id === event.source.userId), 1)
+    // }
 });
 
 module.exports = bot;
