@@ -18,6 +18,11 @@ app.get('/getlist', async (req, res)=>{
     res.send(data);
 });
 
+app.get('/adduser', async (req, res)=>{
+     await dataprocess.addUser(req.query.id)
+    res.send('ok');
+});
+
 app.get('/pushmsg', async (req, res)=> { 
     const clientList = dataprocess.getAllUsers()
     if(req.query.msg){

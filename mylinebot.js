@@ -10,9 +10,9 @@ const bot = linebot({
 const clientList = [];
 
 //取得使用者回覆的訊息
-bot.on('message', (event) => {
+bot.on('message', async (event) => {
     if (event.message.type === 'text') {
-        const clientList = dataprocess.getAllUsers();
+        const clientList = await dataprocess.getAllUsers();
         var msg = event.message.text;
         var user = clientList.find(i=>i.id===event.source.userId);
 
