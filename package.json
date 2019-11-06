@@ -13,6 +13,7 @@
     "koa": "^2.10.0",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
-    "linebot": "^1.5.3"
+    "linebot": "^1.5.3",
+    "pg": "^7.12.1"
   }
 }
