@@ -80,24 +80,28 @@ bot.on('message', (event) => {
 });
 
 bot.on('follow', (event) => {
-    const clientList = await dataprocess.getAllUsers();
-    if(!clientList.some(i=> i.id === event.source.userId)){
+    // const clientList = await dataprocess.getAllUsers();
+    dataprocess.addUser(event.source.userId);
 
-        await  dataprocess.addUser(event.source.userId);
-        // clientList.push({
-        //     id: event.source.userId,
-        //     broadcast: false,
-        //     auth:false
-        // })
-    }
+    // if(!clientList.some(i=> i.id === event.source.userId)){
+
+    //      dataprocess.addUser(event.source.userId);
+    //     // clientList.push({
+    //     //     id: event.source.userId,
+    //     //     broadcast: false,
+    //     //     auth:false
+    //     // })
+    // }
 });
 
 bot.on('unfollow', (event) => {
-    const clientList = await dataprocess.getAllUsers();
-    if(clientList.some(i=> i.id === event.source.userId)){
-        await  dataprocess.deleteUser(event.source.userId);
-        // clientList.splice(clientList.findIndex(i=>i.id === event.source.userId), 1)
-    }
+    await  dataprocess.deleteUser(event.source.userId);
+
+    // const clientList = await dataprocess.getAllUsers();
+    // if(clientList.some(i=> i.id === event.source.userId)){
+    //     await  dataprocess.deleteUser(event.source.userId);
+    //     // clientList.splice(clientList.findIndex(i=>i.id === event.source.userId), 1)
+    // }
 });
 
 module.exports = bot;

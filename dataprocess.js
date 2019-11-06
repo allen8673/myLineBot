@@ -13,20 +13,30 @@ module.exports = {
         });
         return data;
     },
-    addUser: async (userId) =>{
-        const users = await getAllUsers();
-        if(!users.some(i=> i.id === userId)){
-            const sql = 'INSERT INTO user_list (id) VALUES ($1)';
-            db.query(sql, [userId], (err, res) => {
-                if(res){
-                    console.log(res.rowCount);
-                }else{
-                    console.log(err);
-                }
-            })
-        }
+    addUser: (userId) =>{
+
+        const sql = 'INSERT INTO user_list (id) VALUES ($1)';
+        db.query(sql, [userId], (err, res) => {
+            if(res){
+                console.log(res.rowCount);
+            }else{
+                console.log(err);
+            }
+        })
+
+        // const users = await getAllUsers();
+        // if(!users.some(i=> i.id === userId)){
+        //     const sql = 'INSERT INTO user_list (id) VALUES ($1)';
+        //     db.query(sql, [userId], (err, res) => {
+        //         if(res){
+        //             console.log(res.rowCount);
+        //         }else{
+        //             console.log(err);
+        //         }
+        //     })
+        // }
     },
-    deleteUser: async (userId) => {
+    deleteUser: (userId) => {
         const sql = 'DELETE FROM user_list WHERE id = $1';
         db.query(sql, [userId], (err, res) => {
             if (res) {
