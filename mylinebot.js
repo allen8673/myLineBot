@@ -12,9 +12,8 @@ const authValue = 'abcd1234';
 //取得使用者回覆的訊息
 bot.on('message', async (event) => {
     if (event.message.type === 'text') {
-        // const clientList = await dataprocess.getAllUsers();
         var msg = event.message.text;
-        var user = await dataprocess.getUser(event.source.userId); //clientList.find(i=>i.id===event.source.userId);
+        const user = await dataprocess.getUser(event.source.userId); 
 
         if (!user) {
             return;
@@ -22,9 +21,7 @@ bot.on('message', async (event) => {
 
         if (msg === authValue && user.auth !== authValue) {
             await dataprocess.updateAuth(user.id, msg)
-            // user.auth = true;
-            // user.broadcast = true;
-            event.reply("已經將您的廣播權限開通，您可以透過‘開啟廣播’和‘關閉廣播’開關廣播功能").then(function (data) {
+            event.reply(`已經將您(${user.id})的廣播權限開通，您可以透過‘開啟廣播’和‘關閉廣播’開關廣播功能`).then(function (data) {
                 console.log(event);
             }).catch(function (error) {
                 console.log('error:' + error);
