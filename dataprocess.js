@@ -4,58 +4,43 @@ module.exports = {
     getAllUsers: async () => {
         const sql = 'SELECT id, auth, broadcast FROM  user_list'
         let data = [];
-        await db.query(sql, [], (err,res) => {
-            if(res){
-                data =  res.rows;
-            }else{
-                console.log(err);
-            }
-        });
+        await db.query(sql)
+        .then( res=>{
+            data = res.rows;
+        }).catch(err=>{
+            console.log(err);
+        })
         return data;
     },
-    addUser: (userId) =>{
-
-        const sql = 'INSERT INTO user_list (id) VALUES ($1)';
-        db.query(sql, [userId], (err, res) => {
-            if(res){
+    addUser: async (userId) =>{
+        const users = await getAllUsers();
+        if(!users.some(i=> i.id === userId)){
+            const sql = 'INSERT INTO user_list (id) VALUES ($1)';
+            await db.query(sql, [userId])
+            .then( res=>{
                 console.log(res.rowCount);
-            }else{
+            }).catch(err=>{
                 console.log(err);
-            }
-        })
-
-        // const users = await getAllUsers();
-        // if(!users.some(i=> i.id === userId)){
-        //     const sql = 'INSERT INTO user_list (id) VALUES ($1)';
-        //     db.query(sql, [userId], (err, res) => {
-        //         if(res){
-        //             console.log(res.rowCount);
-        //         }else{
-        //             console.log(err);
-        //         }
-        //     })
-        // }
+            })
+        }
     },
-    deleteUser: (userId) => {
+    deleteUser: async (userId) => {
         const sql = 'DELETE FROM user_list WHERE id = $1';
-        db.query(sql, [userId], (err, res) => {
-            if (res) {
-                console.log(res.rowCount);
-            } else {
-                console.log(err);
-            }
+        await  db.query(sql, [userId])
+        .then( res=>{
+            console.log(res.rowCount);
+        }).catch(err=>{
+            console.log(err);
         })
     },
     getUser : async (userId) => {
         const sql = 'SELECT id, auth, broadcast FROM  user_list WHERE id = $1'
-        let data = null;
-        await db.query(sql, [userId], (err,res) => {
-            if(res && res.rows[0]){
-                data = res.rows[0];
-            }else{
-                console.log(err);
-            }
-        });
+        let data = {};
+        await db.query(sql, [userId]).then( res=>{
+            data = res.rows;
+        }).catch(err=>{
+            console.log(err);
+        })
         return data;
     }
 

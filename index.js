@@ -19,7 +19,7 @@ app.get('/getlist', async (req, res)=>{
 });
 
 app.get('/pushmsg', async (req, res)=> { 
-    const clientList = await dataprocess.getAllUsers()
+    const clientList = dataprocess.getAllUsers()
     if(req.query.msg){
         clientList.forEach(user=>
         {
