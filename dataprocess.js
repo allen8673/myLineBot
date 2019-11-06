@@ -13,22 +13,21 @@ module.exports = {
         return data;
     },
     addUser: async (userId) =>{
-        const users = await getAllUsers();
-        if(!users.some(i=> i.id === userId)){
-            const sql = 'INSERT INTO user_list (id) VALUES ($1)';
-            await db.query(sql, [userId])
-            .then( res=>{
-                console.log(res.rowCount);
-            }).catch(err=>{
-                console.log(err);
-            })
-        }
-
-        return users;
+        await getAllUsers().then( users =>{
+            if(!users.some(i=> i.id === userId)){
+                const sql = 'INSERT INTO user_list (id) VALUES ($1)';
+                await db.query(sql, [userId])
+                .then( res=>{
+                    console.log(res.rowCount);
+                }).catch(err=>{
+                    console.log(err);
+                })
+            }
+        } );
     },
     deleteUser: async (userId) => {
         const sql = 'DELETE FROM user_list WHERE id = $1';
-        await  db.query(sql, [userId])
+        await db.query(sql, [userId])
         .then( res=>{
             console.log(res.rowCount);
         }).catch(err=>{

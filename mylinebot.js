@@ -80,8 +80,7 @@ bot.on('message', (event) => {
 });
 
 bot.on('follow', async (event) => {
-    const users = await dataprocess.addUser(event.source.userId);
-    event.reply (users);
+     await dataprocess.addUser(event.source.userId);
     // if(!clientList.some(i=> i.id === event.source.userId)){
     //    await  dataprocess.addUser(event.source.userId);
     //     // clientList.push({
