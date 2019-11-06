@@ -37,7 +37,9 @@ const self =  module.exports = {
         const sql = 'SELECT id, auth, broadcast FROM  user_list WHERE id = $1'
         let data = {};
         await db.query(sql, [userId]).then( res=>{
-            data = res.rows;
+            if(res.rows[0]){
+                data = res.rows[0];
+            }
         }).catch(err=>{
             console.log(err);
         })

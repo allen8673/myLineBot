@@ -18,9 +18,9 @@ app.get('/getlist', async (req, res)=>{
     res.send(data);
 });
 
-app.get('/adduser', async (req, res)=>{
-     await dataprocess.addUser(req.query.id)
-    res.send('ok');
+app.get('/getuser', async (req, res)=>{
+    const data = await dataprocess.getUser(req.query.id)
+    res.send(data);
 });
 
 app.get('/pushmsg', async (req, res)=> { 
