@@ -1,4 +1,3 @@
-// const linebot = require('linebot');
 const express = require('express');
 const bot = require('./mylinebot');
 const dataprocess = require('./dataprocess')
